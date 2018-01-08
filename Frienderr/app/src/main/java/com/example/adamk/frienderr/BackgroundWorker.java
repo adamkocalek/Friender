@@ -1,12 +1,18 @@
-package com.example.friender.fiender;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -19,6 +25,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+
+import static com.example.friender.fiender.Parser.ids;
 
 
 public class BackgroundWorker extends AsyncTask<String, Void, String> {
@@ -53,7 +61,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
         switch (type) {
             case "loginAsUser_url":
                 try {
-                    String login = params[1];
+                    String user_name = params[1];
                     String password = params[2];
                     URL url = new URL(loginAsUser_url);
                     HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
@@ -62,8 +70,8 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                     httpURLConnection.setDoInput(true);
                     OutputStream outputStream = httpURLConnection.getOutputStream();
                     BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
-                    String post_data = URLEncoder.encode("login", "UTF-8") + "=" + URLEncoder.encode(login, "UTF-8") + "&"
-                            + URLEncoder.encode("password", "UTF-8") + "=" + URLEncoder.encode(password, "UTF-8");
+                    String post_data = URLEncoder.encode("user_login", "UTF-8") + "=" + URLEncoder.encode(user_name, "UTF-8") + "&"
+                            + URLEncoder.encode("user_password", "UTF-8") + "=" + URLEncoder.encode(password, "UTF-8");
                     bufferedWriter.write(post_data);
                     bufferedWriter.flush();
                     bufferedWriter.close();
@@ -78,8 +86,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                     bufferedReader.close();
                     inputStream.close();
                     httpURLConnection.disconnect();
-                    System.out.println("XXXXXXXXX" + result);
-                    result = "1";
+                    System.out.println(result);
                     return result;
 
                 } catch (MalformedURLException e) {
@@ -185,7 +192,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                     String post_data = URLEncoder.encode("name", "UTF-8") + "=" + URLEncoder.encode(name, "UTF-8") + "&"
                             + URLEncoder.encode("surname", "UTF-8") + "=" + URLEncoder.encode(surname, "UTF-8") + "&"
                             + URLEncoder.encode("age", "UTF-8") + "=" + URLEncoder.encode(age, "UTF-8") + "&"
-                            + URLEncoder.encode("login", "UTF-8") + "=" + URLEncoder.encode(usename, "UTF-8") + "&"
+                            + URLEncoder.encode("username", "UTF-8") + "=" + URLEncoder.encode(usename, "UTF-8") + "&"
                             + URLEncoder.encode("password", "UTF-8") + "=" + URLEncoder.encode(password, "UTF-8");
                     bufferedWriter.write(post_data);
                     bufferedWriter.flush();
@@ -204,7 +211,6 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                     inputStream.close();
                     httpURLConnection.disconnect();
                     System.out.println(result);
-                    result = "4";
                     return result;
 
                 } catch (MalformedURLException e) {
@@ -239,7 +245,6 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                     httpURLConnection.disconnect();
                     System.out.println(result);
                     tempJSON = result;
-                    result = "5";
                     return result;
 
                 } catch (MalformedURLException e) {
@@ -255,9 +260,11 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
     }
     @Override
     protected void onPostExecute(String result) {
+        progressDialog.dismiss();
 
         switch (result) {
-            case "1":
+            case "Logged":
+
 
                 Intent intent = new Intent(context, FriendsDiary.class);
                 context.startActivity(intent);
@@ -272,11 +279,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
 //                backgroundWorker.execute(type, username);
                 // --------------------------------------------------------------------------------------
                 break;
-            case "4":
-                Toast.makeText(context, "Zarejestrowano.", Toast.LENGTH_SHORT).show();
-                break;
-            case "5":
-                break;
+
 //            case "User":
 //                JSONArray ja = null;
 //

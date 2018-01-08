@@ -34,7 +34,7 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-//        overridePendingTransition(R.anim.right_in, R.anim.left_out);
+
 
         etRegisterAge = (EditText) findViewById(R.id.etRegisterAge);
         etRegisterName = (EditText) findViewById(R.id.etRegisterName);
@@ -43,20 +43,8 @@ public class RegisterActivity extends AppCompatActivity {
         etRegisterSurname = (EditText) findViewById(R.id.etRegisterSurname);
         tvRegisterRules = (TextView) findViewById(R.id.tvRegisterRules);
 
-//        validator = new Validator();
 
-        // CZĘŚĆ PATRYKA
-//        if (isOnline()) {
-//            // POBIERANIE LOGINÓW
-//            BackgroundWorker backgroundWorker = new BackgroundWorker(this);
-//            backgroundWorker.execute("getLogins");
-//        } else {
-//            Toast.makeText(getApplicationContext(), "Brak połączenia z internetem.", Toast.LENGTH_SHORT).show();
-//            onBackPressed();
-//        }
 
-        BackgroundWorker backgroundWorker = new BackgroundWorker(this);
-        backgroundWorker.execute("getLogins");
 
         tvRegisterRules.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,13 +72,15 @@ public class RegisterActivity extends AppCompatActivity {
             alertDialog.show();
             return;
         }
+        String type = "registerAsUser_url";
+        String name = etRegisterName.getText().toString();
+        String surname = etRegisterSurname.getText().toString();
+        String age = etRegisterAge.getText().toString();
+        String login = etRegisterUsername.getText().toString();
+        String password = etRegisterPassword.getText().toString();
 
-        String str_name = etRegisterName.getText().toString();
-        String str_surname = etRegisterSurname.getText().toString();
-        String str_age = etRegisterAge.getText().toString();
-        String str_username = etRegisterUsername.getText().toString();
-        String str_password = etRegisterPassword.getText().toString();
-
+        BackgroundWorker backgroundWorker = new BackgroundWorker(RegisterActivity.this);
+        backgroundWorker.execute(type, name, surname, age, login, password);
 
 //        if (!validator.isEmpty(str_name) && !validator.isEmpty(str_surname) && !validator.isEmpty(str_age) && !validator.isEmpty(str_username) && !validator.isEmpty(str_password) && !validator.isEmpty(str_telephone) && !validator.isEmpty(str_email)) {
 //            if (validator.passwordValidator(etRegisterPassword.getText() + "")) {

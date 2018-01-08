@@ -5,12 +5,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import org.xml.sax.Parser;
+
+
 
 public class FriendsDiary extends AppCompatActivity {
 
     ListView listView_new;
-    Parser parser;
+    com.example.friender.fiender.Parser parser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,7 +20,7 @@ public class FriendsDiary extends AppCompatActivity {
         listView_new = (ListView) findViewById(R.id.listView_new);
 
         BackgroundWorker backgroundWorker = new BackgroundWorker(this);
-        backgroundWorker.execute("");
+        backgroundWorker.execute("getFriends");
 
         try {
             Toast.makeText(getApplicationContext(), "Pobieram dane...", Toast.LENGTH_SHORT).show();
@@ -28,13 +29,13 @@ public class FriendsDiary extends AppCompatActivity {
 
         }
 
-//        parser = new Parser(getApplicationContext(), backgroundWorker.tempJSON);
-//        parser.parseTanks();
-//
-//        ListViewAdapter lviewAdapter;
-//        lviewAdapter = new ListViewAdapter(this, parser.ids, parser.cars, parser.dates, parser.averages, parser.fuels, parser.kilometerss);
-//
-//
+        parser = new com.example.friender.fiender.Parser(getApplicationContext(), backgroundWorker.tempJSON);
+        parser.parse();
+
+        ListViewAdapter lviewAdapter;
+//        lviewAdapter = new ListViewAdapter(this, parser.ids, parser.names, parser.ages, parser.hobbies, parser.sexs, parser.pictures, parser.logins, parser.passwords, parser.cities, parser.reservations, parser.id_users, parser.ranks);
+
+
 //        listView_new.setAdapter(lviewAdapter);
 
 //        listView_new.setOnItemClickListener(new AdapterView.OnItemClickListener() {

@@ -42,7 +42,7 @@ public class Parser extends AsyncTask<Void, Integer, Integer> {
 
     @Override
     protected Integer doInBackground(Void... params) {
-        return this.parseTanks();
+        return this.parse();
     }
 
     @Override
@@ -66,7 +66,7 @@ public class Parser extends AsyncTask<Void, Integer, Integer> {
     }
 
     // Parsowanie pobranego JSON Array
-    int parseTanks() {
+    int parse() {
         try {
             // Dodanie danych do JSON Array
             JSONArray ja = new JSONArray(data);

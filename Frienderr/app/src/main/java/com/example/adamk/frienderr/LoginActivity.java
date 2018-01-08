@@ -1,4 +1,4 @@
-package com.example.friender.fiender;
+package com.example.adamk.frienderr;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -123,7 +123,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 String username = etLoginUsername.getText().toString();
                 String password = etLoginPassword.getText().toString();
-                String type = "loginAsUser_url";
+                String type = "login";
 
                 if (etLoginUsername.getText().toString().isEmpty() || etLoginPassword.getText().toString().isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Wszystkie pola muszą być wypełnione.", Toast.LENGTH_SHORT).show();
