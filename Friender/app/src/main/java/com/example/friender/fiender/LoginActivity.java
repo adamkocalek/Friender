@@ -62,7 +62,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 boolean networkCheck = isOnline();
-                if(!networkCheck){
+                if (!networkCheck) {
                     Log.d("LOG", "Błąd połączenia z internetem.");
                     alertDialog.show();
                     return;
@@ -76,8 +76,29 @@ public class LoginActivity extends AppCompatActivity {
         tvLoginAbout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent aboutIntent = new Intent(LoginActivity.this, AboutActivity.class);
-//                LoginActivity.this.startActivity(aboutIntent);
+                boolean networkCheck = isOnline();
+                if (!networkCheck) {
+                    Log.d("LOG", "Błąd połączenia z internetem.");
+                    alertDialog.show();
+                    return;
+                }
+
+                String username = etLoginUsername.getText().toString();
+                String password = etLoginPassword.getText().toString();
+                String type = "loginAsUser_url";
+
+                if (etLoginUsername.getText().toString().isEmpty() || etLoginPassword.getText().toString().isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "Wszystkie pola muszą być wypełnione.", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    SharedPreferences myprefs = LoginActivity.this.getSharedPreferences("user", MODE_PRIVATE);
+                    myprefs.edit().putString("username", username).commit();
+
+                    BackgroundWorker backgroundWorker = new BackgroundWorker(LoginActivity.this);
+                    backgroundWorker.execute(type, username, password);
+
+
+                }
             }
         });
 
@@ -94,7 +115,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 boolean networkCheck = isOnline();
-                if(!networkCheck){
+                if (!networkCheck) {
                     Log.d("LOG", "Błąd połączenia z internetem.");
                     alertDialog.show();
                     return;

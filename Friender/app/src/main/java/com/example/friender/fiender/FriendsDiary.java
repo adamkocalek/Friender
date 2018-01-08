@@ -15,11 +15,11 @@ public class FriendsDiary extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_friendsDiary);
+        setContentView(R.layout.activity_friendsdiary);
         listView_new = (ListView) findViewById(R.id.listView_new);
 
         BackgroundWorker backgroundWorker = new BackgroundWorker(this);
-        backgroundWorker.execute("getFuels");
+        backgroundWorker.execute("");
 
         try {
             Toast.makeText(getApplicationContext(), "Pobieram dane...", Toast.LENGTH_SHORT).show();
