@@ -30,7 +30,7 @@ public class LoginActivity extends AppCompatActivity {
             finish();
             System.exit(0);
         } else {
-
+            Toast.makeText(getApplicationContext(), "Wciśnij jeszcze razy aby wyjść", Toast.LENGTH_SHORT).show();
         }
         back = 1;
     }
@@ -40,6 +40,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         back = 0;
         setContentView(R.layout.activity_login);
+        overridePendingTransition(R.anim.right_in, R.anim.left_out);
 
         etLoginUsername = (EditText) findViewById(R.id.etLoginUsername);
         etLoginPassword = (EditText) findViewById(R.id.etLoginPassword);

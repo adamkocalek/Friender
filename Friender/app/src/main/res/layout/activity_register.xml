@@ -53,6 +53,23 @@
             android:inputType="number"
             android:textColorHint="@color/colorAccent" />
 
+        <EditText
+            android:id="@+id/editTextTelephone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Telefon"
+            android:inputType="number"
+            android:textColorHint="@color/colorAccent" />
+
+        <EditText
+            android:id="@+id/editTextEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Email"
+            android:textColorHint="@color/colorAccent" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -86,8 +103,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="36dp"
                 android:layout_marginTop="7dp"
+                android:background="@drawable/button_primary"
                 android:onClick="onRegisterButtonClick"
                 android:text="Załóż konto"
+                android:textColor="@color/white"
                 android:textSize="12sp" />
 
         </LinearLayout>
