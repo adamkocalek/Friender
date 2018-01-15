@@ -38,9 +38,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
 
     String tempJSON;
     String registerAsUser_url = "https://serwer1743778.home.pl/insertUser.php";
-    String registerAsFriend_url = "https://serwer1743778.home.pl/insertFriend.php";
     String loginAsUser_url = "https://serwer1743778.home.pl/loginAsUser.php";
-    String loginAsFriend_url = "https://serwer1743778.home.pl/loginAsFriend.php";
     String friends_url = "https://serwer1743778.home.pl/getFriends.php";
 
     @Override
@@ -88,86 +86,6 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                     Log.d(TAG, IOException);
                 }
                 break;
-            case "loginAsFriend_url":
-                try {
-                    String user_name = params[1];
-                    String password = params[2];
-                    URL url = new URL(loginAsFriend_url);
-                    HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-                    httpURLConnection.setRequestMethod("POST");
-                    httpURLConnection.setDoOutput(true);
-                    httpURLConnection.setDoInput(true);
-                    OutputStream outputStream = httpURLConnection.getOutputStream();
-                    BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
-                    String post_data = URLEncoder.encode("user_name", "UTF-8") + "=" + URLEncoder.encode(user_name, "UTF-8") + "&"
-                            + URLEncoder.encode("password", "UTF-8") + "=" + URLEncoder.encode(password, "UTF-8");
-                    bufferedWriter.write(post_data);
-                    bufferedWriter.flush();
-                    bufferedWriter.close();
-                    outputStream.close();
-                    InputStream inputStream = httpURLConnection.getInputStream();
-                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));   //było iso-8859-1
-                    String result = "";
-                    String line = "";
-                    while ((line = bufferedReader.readLine()) != null) {
-                        result += line;
-                    }
-                    bufferedReader.close();
-                    inputStream.close();
-                    httpURLConnection.disconnect();
-                    System.out.println(result);
-                    return result;
-
-                } catch (MalformedURLException e) {
-                    Log.d(TAG, NetworkException);
-                } catch (IOException e) {
-                    Log.d(TAG, IOException);
-                }
-                break;
-            case "registerAsFriend_url":
-                try {
-                    String name = params[1];
-                    String surname = params[2];
-                    String age = params[3];
-                    String usename = params[4];
-                    String password = params[5];
-                    URL url = new URL(registerAsFriend_url);
-                    HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-                    httpURLConnection.setRequestMethod("POST");
-                    httpURLConnection.setDoOutput(true);
-                    httpURLConnection.setDoInput(true);
-                    OutputStream outputStream = httpURLConnection.getOutputStream();
-                    BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
-                    String post_data = URLEncoder.encode("name", "UTF-8") + "=" + URLEncoder.encode(name, "UTF-8") + "&"
-                            + URLEncoder.encode("surname", "UTF-8") + "=" + URLEncoder.encode(surname, "UTF-8") + "&"
-                            + URLEncoder.encode("age", "UTF-8") + "=" + URLEncoder.encode(age, "UTF-8") + "&"
-                            + URLEncoder.encode("username", "UTF-8") + "=" + URLEncoder.encode(usename, "UTF-8") + "&"
-                            + URLEncoder.encode("password", "UTF-8") + "=" + URLEncoder.encode(password, "UTF-8");
-                    bufferedWriter.write(post_data);
-                    bufferedWriter.flush();
-                    bufferedWriter.close();
-                    outputStream.close();
-                    InputStream inputStream = httpURLConnection.getInputStream();
-                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));   ///było iso-8859-1
-                    String result = "";
-                    String line = "";
-
-                    while ((line = bufferedReader.readLine()) != null) {
-                        result += line;
-                    }
-
-                    bufferedReader.close();
-                    inputStream.close();
-                    httpURLConnection.disconnect();
-                    System.out.println(result);
-                    return result;
-
-                } catch (MalformedURLException e) {
-                    Log.d(TAG, NetworkException);
-                } catch (IOException e) {
-                    Log.d(TAG, IOException);
-                }
-                break;
             case "registerAsUser_url":
                 try {
                     String name = params[1];
@@ -175,6 +93,8 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                     String age = params[3];
                     String usename = params[4];
                     String password = params[5];
+                    String phone = params[6];
+                    String email = params[7];
                     URL url = new URL(registerAsUser_url);
                     HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                     httpURLConnection.setRequestMethod("POST");
@@ -186,7 +106,9 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                             + URLEncoder.encode("surname", "UTF-8") + "=" + URLEncoder.encode(surname, "UTF-8") + "&"
                             + URLEncoder.encode("age", "UTF-8") + "=" + URLEncoder.encode(age, "UTF-8") + "&"
                             + URLEncoder.encode("login", "UTF-8") + "=" + URLEncoder.encode(usename, "UTF-8") + "&"
-                            + URLEncoder.encode("password", "UTF-8") + "=" + URLEncoder.encode(password, "UTF-8");
+                            + URLEncoder.encode("password", "UTF-8") + "=" + URLEncoder.encode(password, "UTF-8") + "&"
+                            + URLEncoder.encode("phone", "UTF-8") + "=" + URLEncoder.encode(phone, "UTF-8") + "&"
+                            + URLEncoder.encode("email", "UTF-8") + "=" + URLEncoder.encode(email, "UTF-8");
                     bufferedWriter.write(post_data);
                     bufferedWriter.flush();
                     bufferedWriter.close();
@@ -258,7 +180,6 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
 
         switch (result) {
             case "1":
-
                 Intent intent = new Intent(context, FriendsDiary.class);
                 context.startActivity(intent);
                 Toast.makeText(context, "Zalogowano poprawnie.", Toast.LENGTH_SHORT).show();
@@ -274,6 +195,8 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                 break;
             case "4":
                 Toast.makeText(context, "Zarejestrowano.", Toast.LENGTH_SHORT).show();
+                intent = new Intent(context, LoginActivity.class);
+                context.startActivity(intent);
                 break;
             case "5":
                 break;

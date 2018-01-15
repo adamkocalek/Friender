@@ -78,6 +78,8 @@ public class RegisterActivity extends AppCompatActivity {
         String age = etRegisterAge.getText().toString();
         String login = etRegisterUsername.getText().toString();
         String password = etRegisterPassword.getText().toString();
+        String phone = etRegisterTelephone.getText().toString();
+        String email = etRegisterEmail.getText().toString();
 
         String str_name = etRegisterName.getText().toString();
         String str_surname = etRegisterSurname.getText().toString();
@@ -88,29 +90,29 @@ public class RegisterActivity extends AppCompatActivity {
         String str_telephone = etRegisterTelephone.getText().toString();
 
         BackgroundWorker backgroundWorker = new BackgroundWorker(RegisterActivity.this);
-        backgroundWorker.execute(type, name, surname, age, login, password);
+        backgroundWorker.execute(type, name, surname, age, login, password, phone, email);
 
-            if (TextUtils.isEmpty(validator.trimSpaces(str_name))) {
-                etRegisterName.setError("Pole nie może być puste!");
-            }
-            if (TextUtils.isEmpty(validator.trimSpaces(str_surname))) {
-                etRegisterSurname.setError("Pole nie może być puste!");
-            }
-            if (TextUtils.isEmpty(validator.trimSpaces(str_age))) {
-                etRegisterAge.setError("Pole nie może być puste!");
-            }
-            if (TextUtils.isEmpty(validator.trimSpaces(str_username))) {
-                etRegisterUsername.setError("Pole nie może być puste!");
-            }
-            if (TextUtils.isEmpty(validator.trimSpaces(str_password))) {
-                etRegisterPassword.setError("Pole nie może być puste!");
-            }
-            if (TextUtils.isEmpty(validator.trimSpaces(str_telephone))) {
-                etRegisterTelephone.setError("Pole nie może być puste!");
-            }
-            if (TextUtils.isEmpty(validator.trimSpaces(str_email))) {
-                etRegisterEmail.setError("Pole nie może być puste!");
-            }
+//            if (TextUtils.isEmpty(validator.trimSpaces(str_name))) {
+//                etRegisterName.setError("Pole nie może być puste!");
+//            }
+//            if (TextUtils.isEmpty(validator.trimSpaces(str_surname))) {
+//                etRegisterSurname.setError("Pole nie może być puste!");
+//            }
+//            if (TextUtils.isEmpty(validator.trimSpaces(str_age))) {
+//                etRegisterAge.setError("Pole nie może być puste!");
+//            }
+//            if (TextUtils.isEmpty(validator.trimSpaces(str_username))) {
+//                etRegisterUsername.setError("Pole nie może być puste!");
+//            }
+//            if (TextUtils.isEmpty(validator.trimSpaces(str_password))) {
+//                etRegisterPassword.setError("Pole nie może być puste!");
+//            }
+//            if (TextUtils.isEmpty(validator.trimSpaces(str_telephone))) {
+//                etRegisterTelephone.setError("Pole nie może być puste!");
+//            }
+//            if (TextUtils.isEmpty(validator.trimSpaces(str_email))) {
+//                etRegisterEmail.setError("Pole nie może być puste!");
+//            }
 
             Toast.makeText(getApplicationContext(), "Wszystkie pola muszą zostać uzupełnione.", Toast.LENGTH_SHORT).show();
         }
