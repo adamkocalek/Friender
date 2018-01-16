@@ -47,7 +47,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
         String type = params[0];
         String login_url = "https://serwer1743778.home.pl/loginAsUser.php";
         String register_url = "https://serwer1743778.home.pl/insertUser.php";
-//        String update_url = "http://188.128.220.60/updateUser.php";
+        String update_url = "";
         String friends_url = "https://serwer1743778.home.pl/getFriends.php";
 
         String NetworkException = "Błąd połączenia z internetem";
@@ -143,55 +143,55 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                 }
                 break;
 
-//            case "updateUser":
-//                try {
-//                    String name = params[1];
-//                    String surname = params[2];
-//                    String age = params[3];
-//                    String usename = params[4];
-//                    String password = params[5];
-//                    String telephone = params[6];
-//                    String email = params[7];
-//                    URL url = new URL(update_url);
-//                    HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-//                    httpURLConnection.setRequestMethod("POST");
-//                    httpURLConnection.setDoOutput(true);
-//                    httpURLConnection.setDoInput(true);
-//                    OutputStream outputStream = httpURLConnection.getOutputStream();
-//                    BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
-//                    String post_data = URLEncoder.encode("name", "UTF-8") + "=" + URLEncoder.encode(name, "UTF-8") + "&"
-//                            + URLEncoder.encode("surname", "UTF-8") + "=" + URLEncoder.encode(surname, "UTF-8") + "&"
-//                            + URLEncoder.encode("age", "UTF-8") + "=" + URLEncoder.encode(age, "UTF-8") + "&"
-//                            + URLEncoder.encode("username", "UTF-8") + "=" + URLEncoder.encode(usename, "UTF-8") + "&"
-//                            + URLEncoder.encode("password", "UTF-8") + "=" + URLEncoder.encode(password, "UTF-8") + "&"
-//                            + URLEncoder.encode("telephone", "UTF-8") + "=" + URLEncoder.encode(telephone, "UTF-8") + "&"
-//                            + URLEncoder.encode("email", "UTF-8") + "=" + URLEncoder.encode(email, "UTF-8");
-//                    bufferedWriter.write(post_data);
-//                    bufferedWriter.flush();
-//                    bufferedWriter.close();
-//                    outputStream.close();
-//                    InputStream inputStream = httpURLConnection.getInputStream();
-//                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));   //było iso-8859-1
-//                    String result = "";
-//                    String line = "";
-//
-//                    while ((line = bufferedReader.readLine()) != null) {
-//                        result += line;
-//                    }
-//
-//                    bufferedReader.close();
-//                    inputStream.close();
-//                    httpURLConnection.disconnect();
-//                    System.out.println(result);
-//                    return result;
-//
-//                } catch (MalformedURLException e) {
-//                    Log.d(TAG, NetworkException);
-//                } catch (IOException e) {
-//                    Log.d(TAG, IOException);
-//                }
-//                break;
-//
+            case "updateFriend":
+                try {
+                    String name = params[1];
+                    String surname = params[2];
+                    String age = params[3];
+                    String usename = params[4];
+                    String password = params[5];
+                    String telephone = params[6];
+                    String email = params[7];
+                    URL url = new URL(update_url);
+                    HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                    httpURLConnection.setRequestMethod("POST");
+                    httpURLConnection.setDoOutput(true);
+                    httpURLConnection.setDoInput(true);
+                    OutputStream outputStream = httpURLConnection.getOutputStream();
+                    BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+                    String post_data = URLEncoder.encode("name", "UTF-8") + "=" + URLEncoder.encode(name, "UTF-8") + "&"
+                            + URLEncoder.encode("surname", "UTF-8") + "=" + URLEncoder.encode(surname, "UTF-8") + "&"
+                            + URLEncoder.encode("age", "UTF-8") + "=" + URLEncoder.encode(age, "UTF-8") + "&"
+                            + URLEncoder.encode("username", "UTF-8") + "=" + URLEncoder.encode(usename, "UTF-8") + "&"
+                            + URLEncoder.encode("password", "UTF-8") + "=" + URLEncoder.encode(password, "UTF-8") + "&"
+                            + URLEncoder.encode("telephone", "UTF-8") + "=" + URLEncoder.encode(telephone, "UTF-8") + "&"
+                            + URLEncoder.encode("email", "UTF-8") + "=" + URLEncoder.encode(email, "UTF-8");
+                    bufferedWriter.write(post_data);
+                    bufferedWriter.flush();
+                    bufferedWriter.close();
+                    outputStream.close();
+                    InputStream inputStream = httpURLConnection.getInputStream();
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));   //było iso-8859-1
+                    String result = "";
+                    String line = "";
+
+                    while ((line = bufferedReader.readLine()) != null) {
+                        result += line;
+                    }
+
+                    bufferedReader.close();
+                    inputStream.close();
+                    httpURLConnection.disconnect();
+                    System.out.println(result);
+                    return result;
+
+                } catch (MalformedURLException e) {
+                    Log.d(TAG, NetworkException);
+                } catch (IOException e) {
+                    Log.d(TAG, IOException);
+                }
+                break;
+
             case "getFriends":
                 try {
                     URL url = new URL(friends_url);

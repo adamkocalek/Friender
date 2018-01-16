@@ -18,7 +18,7 @@ public class Parser extends AsyncTask<Void, Integer, Integer> {
     Context context;
     public static String data;
     String taskName;
-    public static ArrayList<String> ids = new ArrayList<>(), names = new ArrayList<>(), ages = new ArrayList<>(), hobbies = new ArrayList<>(), sexs = new ArrayList<>(), pictures = new ArrayList<>(), logins = new ArrayList<>(), passwords = new ArrayList<>(), cities = new ArrayList<>(), reservations = new ArrayList<>(), id_users = new ArrayList<>(), ranks = new ArrayList<>();
+    public static ArrayList<String> ids = new ArrayList<>(), names = new ArrayList<>(), ages = new ArrayList<>(), hobbies = new ArrayList<>(), sexs = new ArrayList<>(), pictures = new ArrayList<>(), logins = new ArrayList<>(), passwords = new ArrayList<>(), cities = new ArrayList<>(), reservations = new ArrayList<>(), id_users = new ArrayList<>(), ranks = new ArrayList<>(), avaliables = new ArrayList<>();
 
     ProgressDialog progressDialog;
 
@@ -84,6 +84,7 @@ public class Parser extends AsyncTask<Void, Integer, Integer> {
             reservations.clear();
             id_users.clear();
             ranks.clear();
+            avaliables.clear();
 
 
             for (int i = ja.length() - 1; i > -1; i--) {
@@ -102,7 +103,7 @@ public class Parser extends AsyncTask<Void, Integer, Integer> {
                 String reservation = jo.getString("reservation");
                 String id_user = jo.getString("id_user");
                 String rank = jo.getString("reank");
-
+                String avaliable = jo.getString("avaliable");
                 // Dodanie danych do normalnej listy
                 ids.add(id);
                 names.add(name);
@@ -116,6 +117,7 @@ public class Parser extends AsyncTask<Void, Integer, Integer> {
                 reservations.add(reservation);
                 id_users.add(id_user);
                 ranks.add(rank);
+                avaliables.add(avaliable);
             }
             return 1;
 

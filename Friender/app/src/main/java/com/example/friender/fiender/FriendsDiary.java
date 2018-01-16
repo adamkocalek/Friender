@@ -16,6 +16,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -61,7 +63,7 @@ public class FriendsDiary extends AppCompatActivity {
         context=this;
 
         lv=(ListView) findViewById(R.id.listView);
-        lv.setAdapter(new CustomAdapter(this, nameList,images,ocenaList,wiekList));
+//        lv.setAdapter(new CustomAdapter(this, nameList,images,ocenaList,wiekList));
 
         BackgroundWorker backgroundWorker = new BackgroundWorker(this);
         backgroundWorker.execute("getFriends");
@@ -167,33 +169,16 @@ public class FriendsDiary extends AppCompatActivity {
         mDrawerToggle.syncState();
 
 
- //       ListViewAdapter lviewAdapter;
-//        lviewAdapter = new ListViewAdapter(this, parser.ids, parser.names, parser.ages, parser.hobbies, parser.sexs, parser.pictures, parser.logins, parser.passwords, parser.cities, parser.reservations, parser.id_users, parser.ranks);
+        ListViewAdapter lvAdapter = new ListViewAdapter(this, parser.ids, parser.names, parser.ages, parser.hobbies, parser.sexs, parser.pictures, parser.logins, parser.passwords, parser.cities, parser.reservations, parser.id_users, parser.ranks, parser.avaliables);
 
 
-//        listView_new.setAdapter(lviewAdapter);
+        lv.setAdapter(lvAdapter);
 
-//        listView_new.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 //            @Override
 //            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//
-//                Intent intent = new Intent(getContext(), ProjectActivity.class);
-//                TextView textView = (TextView) view.findViewById(R.id.textViewIds);
-//
-//                if (parser.ids.contains(textView.getText() + "")) {
-//                    position = parser.ids.indexOf(textView.getText() + "");
-//                } else {
-//                    position = -1;
-//                }
-//                if (position != -1) {
-//                    intent.putExtra("id", parser.ids.get(position));
-//                    intent.putExtra("car", parser.cars.get(position));
-//                    intent.putExtra("date", parser.dates.get(position));
-//                    intent.putExtra("average", parser.averages.get(position));
-//                    intent.putExtra("fuel", parser.fuels.get(position));
-//                    intent.putExtra("kilometers", parser.kilometerss.get(position));
-//                    getContext().startActivity(intent);
-//                }
+//                BackgroundWorker backgroundWorker = new BackgroundWorker(FriendsDiary.this);
+//                backgroundWorker.execute("getFriends");
 //            }
 //        });
 

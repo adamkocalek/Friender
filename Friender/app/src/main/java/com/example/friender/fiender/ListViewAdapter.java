@@ -14,21 +14,35 @@ import java.util.ArrayList;
 public class ListViewAdapter extends BaseAdapter {
 
     Activity activity;
-
     ArrayList<String> ids;
-    ArrayList<String> subjects;
-    ArrayList<String> authors;
-    ArrayList<String> likes;
-    ArrayList<String> dates;
+    ArrayList<String> names;
+    ArrayList<String> ages;
+    ArrayList<String> hobbies;
+    ArrayList<String> sexs;
+    ArrayList<String> picture;
+    ArrayList<String> logins;
+    ArrayList<String> passwords;
+    ArrayList<String> cities;
+    ArrayList<String> reservations;
+    ArrayList<String> id_users;
+    ArrayList<String> ranks;
+    ArrayList<String> avaliables;
 
-    public ListViewAdapter(Activity activity, ArrayList<String> ids, ArrayList<String> subjects, ArrayList<String> authors, ArrayList<String> likes, ArrayList<String> dates) {
+    public ListViewAdapter(Activity activity, ArrayList<String> ids, ArrayList<String> names,  ArrayList<String> ages, ArrayList<String> hobbies, ArrayList<String> sexs, ArrayList<String> picture, ArrayList<String> logins, ArrayList<String> passwords, ArrayList<String> cities, ArrayList<String> reservations, ArrayList<String> id_users, ArrayList<String> ranks, ArrayList<String> avaliables) {
         super();
         this.activity = activity;
-        this.ids = ids;
-        this.subjects = subjects;
-        this.authors = authors;
-        this.likes = likes;
-        this.dates = dates;
+        this.names = names;
+        this.ages = ages;
+        this.hobbies = hobbies;
+        this.sexs = sexs;
+        this.picture = picture;
+        this.logins = logins;
+        this.passwords = passwords;
+        this.cities = cities;
+        this.reservations = reservations;
+        this.id_users = id_users;
+        this.ranks = ranks;
+        this.avaliables = avaliables;
     }
 
     public int getCount() {
