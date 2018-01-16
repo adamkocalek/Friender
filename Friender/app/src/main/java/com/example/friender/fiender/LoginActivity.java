@@ -84,22 +84,6 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
 
-                String username = etLoginUsername.getText().toString();
-                String password = etLoginPassword.getText().toString();
-                String type = "loginAsUser_url";
-
-                if (etLoginUsername.getText().toString().isEmpty() || etLoginPassword.getText().toString().isEmpty()) {
-                    Toast.makeText(getApplicationContext(), "Wszystkie pola muszą być wypełnione.", Toast.LENGTH_SHORT).show();
-
-                } else {
-                    SharedPreferences myprefs = LoginActivity.this.getSharedPreferences("user", MODE_PRIVATE);
-                    myprefs.edit().putString("username", username).commit();
-
-                    BackgroundWorker backgroundWorker = new BackgroundWorker(LoginActivity.this);
-                    backgroundWorker.execute(type, username, password);
-
-
-                }
             }
         });
 
@@ -124,7 +108,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 String username = etLoginUsername.getText().toString();
                 String password = etLoginPassword.getText().toString();
-                String type = "loginAsUser_url";
+                String type = "login";
 
                 if (etLoginUsername.getText().toString().isEmpty() || etLoginPassword.getText().toString().isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Wszystkie pola muszą być wypełnione.", Toast.LENGTH_SHORT).show();
