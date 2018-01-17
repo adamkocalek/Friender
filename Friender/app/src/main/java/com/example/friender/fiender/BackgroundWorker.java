@@ -25,9 +25,6 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
 
     private Context context;
     private Activity activity;
-    private String outputString;
-    private Bitmap outputBitmap;
-    private ProgressDialog progressDialog;
 
     BackgroundWorker(Context context) {
         this.context = context;
@@ -93,7 +90,6 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                     Log.d(TAG, IOException);
                 }
                 break;
-
             case "register":
                 try {
                     String name = params[1];
@@ -142,7 +138,6 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                     Log.d(TAG, IOException);
                 }
                 break;
-
             case "updateFriend":
                 try {
                     String name = params[1];
@@ -191,7 +186,6 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                     Log.d(TAG, IOException);
                 }
                 break;
-
             case "getFriends":
                 try {
                     URL url = new URL(friends_url);
@@ -218,7 +212,6 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                     httpURLConnection.disconnect();
                     System.out.println(result);
                     tempJSON = result;
-                    result = "5";
                     return result;
 
                 } catch (MalformedURLException e) {
@@ -234,7 +227,6 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
 
             default:
         }
-
         return null;
     }
 
@@ -245,7 +237,6 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String result) {
-        System.out.println(result + "XXXXXXXXXXXXXXXX");
         if(result.contains("success")){
             Intent intent = new Intent(context, FriendsDiary.class);
             context.startActivity(intent);
@@ -255,32 +246,6 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
             context.startActivity(intent);
             Toast.makeText(context, "Zarejestrowano.", Toast.LENGTH_SHORT).show();
         }
-        switch (result) {
-            case "Login success. Welcome!":
-                Intent intent = new Intent(context, FriendsDiary.class);
-                context.startActivity(intent);
-                Toast.makeText(context, "Zalogowano poprawnie.", Toast.LENGTH_SHORT).show();
-
-                // ----------------------- BackgroundWorker Dane Użytkownika ----------------------------
-//                SharedPreferences myprefs = context.getSharedPreferences("user", context.MODE_PRIVATE);
-//                String username = myprefs.getString("username", null);
-//                String type = "getUser";
-//afdsf
-//                BackgroundWorker backgroundWorker = new BackgroundWorker(context);
-//                backgroundWorker.execute(type, username);
-                // --------------------------------------------------------------------------------------
-                break;
-
-            case "Logins":
-                ((RegisterActivity) context).loginsDownloaded = outputString;
-                break;
-
-
-            default:
-                result = result.replaceAll("<", "");
-                Toast.makeText(context, result, Toast.LENGTH_SHORT).show();
-        }
-
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.example.friender.fiender;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -75,9 +76,8 @@ public class FriendsDiary extends AppCompatActivity {
 
         }
 
-        parser = new com.example.friender.fiender.Parser(getApplicationContext(), backgroundWorker.tempJSON);
+        parser = new Parser(getApplicationContext(), backgroundWorker.tempJSON);
         parser.parse();
-
         final AlertDialog.Builder alertDialog = new AlertDialog.Builder(new ContextThemeWrapper(FriendsDiary.this, R.style.Dialog_Theme))
                 .setTitle("Wystąpił błąd!")
                 .setMessage("Problem z dostępem do internetu. Sprawdź połączenie i spróbuj ponownie później.")
@@ -165,22 +165,21 @@ public class FriendsDiary extends AppCompatActivity {
         ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.app_name, R.string.app_name);
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
-
         mDrawerToggle.syncState();
 
 
-        ListViewAdapter lvAdapter = new ListViewAdapter(this, parser.ids, parser.names, parser.ages, parser.hobbies, parser.sexs, parser.pictures, parser.logins, parser.passwords, parser.cities, parser.reservations, parser.id_users, parser.ranks, parser.avaliables);
-
+        ListViewAdapter lvAdapter = new ListViewAdapter(this, parser.ids, parser.names, parser.ages, parser.hobbies, parser.sexs, parser.pictures, parser.logins, parser.passwords, parser.cities, parser.reservations, parser.id_users, parser.ranks, parser.frees);
 
         lv.setAdapter(lvAdapter);
 
-//        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 //                BackgroundWorker backgroundWorker = new BackgroundWorker(FriendsDiary.this);
 //                backgroundWorker.execute("getFriends");
-//            }
-//        });
+            }
+        });
 
 
     }

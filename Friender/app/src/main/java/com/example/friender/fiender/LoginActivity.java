@@ -23,7 +23,6 @@ public class LoginActivity extends AppCompatActivity {
     TextView tvLoginAbout, tvLoginRules;
     int back;
 
-
     @Override
     public void onBackPressed() {
         if (back != 0) {
@@ -61,14 +60,12 @@ public class LoginActivity extends AppCompatActivity {
         bRegisterLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 boolean networkCheck = isOnline();
                 if (!networkCheck) {
                     Log.d("LOG", "Błąd połączenia z internetem.");
                     alertDialog.show();
                     return;
                 }
-
                 Intent registerIntent = new Intent(LoginActivity.this, RegisterActivity.class);
                 LoginActivity.this.startActivity(registerIntent);
             }
@@ -83,7 +80,6 @@ public class LoginActivity extends AppCompatActivity {
                     alertDialog.show();
                     return;
                 }
-
             }
         });
 
@@ -98,7 +94,6 @@ public class LoginActivity extends AppCompatActivity {
         bLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 boolean networkCheck = isOnline();
                 if (!networkCheck) {
                     Log.d("LOG", "Błąd połączenia z internetem.");
@@ -118,7 +113,6 @@ public class LoginActivity extends AppCompatActivity {
 
                     BackgroundWorker backgroundWorker = new BackgroundWorker(LoginActivity.this);
                     backgroundWorker.execute(type, username, password);
-
                 }
             }
         });
