@@ -20,9 +20,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+
+import static com.example.friender.fiender.Parser.ids;
+import static com.example.friender.fiender.R.id.textViewIds;
 
 public class FriendsDiary extends AppCompatActivity {
 
@@ -60,7 +64,6 @@ public class FriendsDiary extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends_diary);
         overridePendingTransition(R.anim.right_in, R.anim.left_out);
-
         context=this;
 
         lv=(ListView) findViewById(R.id.listView);
@@ -171,7 +174,6 @@ public class FriendsDiary extends AppCompatActivity {
         ListViewAdapter lvAdapter = new ListViewAdapter(this, parser.ids, parser.names, parser.ages, parser.hobbies, parser.sexs, parser.pictures, parser.logins, parser.passwords, parser.cities, parser.reservations, parser.id_users, parser.ranks, parser.frees);
 
         lv.setAdapter(lvAdapter);
-
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

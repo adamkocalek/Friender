@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import static com.example.friender.fiender.R.id.textViewIds;
+
 public class ListViewAdapter extends BaseAdapter {
 
     Activity activity;
@@ -70,14 +72,13 @@ public class ListViewAdapter extends BaseAdapter {
 
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        System.out.println();
         ViewHolder holder;
         LayoutInflater inflater = activity.getLayoutInflater();
 
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.list_projects, null);
             holder = new ViewHolder();
-            holder.textViewIds = (TextView) convertView.findViewById(R.id.textViewIds);
+            holder.textViewIds = (TextView) convertView.findViewById(textViewIds);
             holder.textViewSubjects = (TextView) convertView.findViewById(R.id.textViewSubjects);
             holder.textViewAuthors = (TextView) convertView.findViewById(R.id.textViewAuthors);
             holder.textViewLikes = (TextView) convertView.findViewById(R.id.textViewLikes);

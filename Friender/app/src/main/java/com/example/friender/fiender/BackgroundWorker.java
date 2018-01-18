@@ -97,6 +97,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                     String age = params[3];
                     String usename = params[4];
                     String password = params[5];
+                    String phone = params[6];
                     String telephone = params[6];
                     String email = params[7];
                     URL url = new URL(register_url);
@@ -109,9 +110,9 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                     String post_data = URLEncoder.encode("name", "UTF-8") + "=" + URLEncoder.encode(name, "UTF-8") + "&"
                             + URLEncoder.encode("surname", "UTF-8") + "=" + URLEncoder.encode(surname, "UTF-8") + "&"
                             + URLEncoder.encode("age", "UTF-8") + "=" + URLEncoder.encode(age, "UTF-8") + "&"
-                            + URLEncoder.encode("username", "UTF-8") + "=" + URLEncoder.encode(usename, "UTF-8") + "&"
+                            + URLEncoder.encode("login", "UTF-8") + "=" + URLEncoder.encode(usename, "UTF-8") + "&"
                             + URLEncoder.encode("password", "UTF-8") + "=" + URLEncoder.encode(password, "UTF-8") + "&"
-                            + URLEncoder.encode("telephone", "UTF-8") + "=" + URLEncoder.encode(telephone, "UTF-8") + "&"
+                            + URLEncoder.encode("phone", "UTF-8") + "=" + URLEncoder.encode(phone, "UTF-8") + "&"
                             + URLEncoder.encode("email", "UTF-8") + "=" + URLEncoder.encode(email, "UTF-8");
                     bufferedWriter.write(post_data);
                     bufferedWriter.flush();
@@ -131,13 +132,13 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                     httpURLConnection.disconnect();
                     System.out.println(result);
                     return result;
-
                 } catch (MalformedURLException e) {
                     Log.d(TAG, NetworkException);
                 } catch (IOException e) {
                     Log.d(TAG, IOException);
                 }
                 break;
+
             case "updateFriend":
                 try {
                     String name = params[1];
@@ -237,11 +238,11 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String result) {
-        if(result.contains("success")){
+        if (result.contains("success")) {
             Intent intent = new Intent(context, FriendsDiary.class);
             context.startActivity(intent);
             Toast.makeText(context, "Zalogowano poprawnie.", Toast.LENGTH_SHORT).show();
-        } else if(result.contains("sert")) {
+        } else if (result.contains("sert")) {
             Intent intent = new Intent(context, LoginActivity.class);
             context.startActivity(intent);
             Toast.makeText(context, "Zarejestrowano.", Toast.LENGTH_SHORT).show();
