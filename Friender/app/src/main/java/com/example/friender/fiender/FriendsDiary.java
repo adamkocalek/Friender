@@ -7,7 +7,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -15,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,7 +35,8 @@ import java.util.ArrayList;
 import static com.example.friender.fiender.Parser.ids;
 import static com.example.friender.fiender.R.id.textViewIds;
 
-public class FriendsDiary extends AppCompatActivity {
+public class FriendsDiary extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     //com.example.friender.fiender.Parser parser;
     ListView listMain;
@@ -51,23 +55,10 @@ public class FriendsDiary extends AppCompatActivity {
     public static ArrayList<Integer> images = new ArrayList<>();
 
     @Override
-    public void onBackPressed() {
-        return;
-    }
-
-    /*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        //Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-    */
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends_diary);
+
         overridePendingTransition(R.anim.right_in, R.anim.left_out);
         context = this;
 
@@ -136,15 +127,23 @@ public class FriendsDiary extends AppCompatActivity {
 
         // ----------------------------------------------------------------------------------------------------------------------------------------------
 
-
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout1);
         mNavigationView = (NavigationView) findViewById(R.id.shitstuff1);
+        mNavigationView.setNavigationItemSelectedListener(this);
 
+        toolbar = (Toolbar) findViewById(R.id.toolbar1);
+        ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.app_name, R.string.app_name);
+
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
+        mDrawerToggle.syncState();
+
+        /*
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
                 mDrawerLayout.closeDrawers();
-
+                Toast.makeText(getApplicationContext(), menuItem.getItemId(), Toast.LENGTH_SHORT).show();
                 if (menuItem.getItemId() == R.id.nav_main) {
                     boolean networkCheck = isOnline();
                     if (!networkCheck) {
@@ -196,8 +195,8 @@ public class FriendsDiary extends AppCompatActivity {
                     //startActivity(intent);
 
                 } else if (menuItem.getItemId() == R.id.nav_about) {
-                    //Intent intent = new Intent(RootActivity.this, AboutActivity.class);
-                    //startActivity(intent);
+                    Intent intent = new Intent(FriendsDiary.this, AboutActivity.class);
+                    startActivity(intent);
 
                 } else if (menuItem.getItemId() == R.id.nav_logout) {
                     Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
@@ -210,17 +209,112 @@ public class FriendsDiary extends AppCompatActivity {
             }
 
         });
-
-        toolbar = (Toolbar) findViewById(R.id.toolbar1);
-        ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.app_name, R.string.app_name);
-
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
-        mDrawerToggle.syncState();
+        */
     }
+
+    @Override
+    public void onBackPressed() {
+
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)
+    {
+        if (keyCode == KeyEvent.KEYCODE_BACK)
+        {
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawerLayout1);
+            if (drawer.isDrawerOpen(GravityCompat.START)) {
+                drawer.closeDrawer(GravityCompat.START);
+            } else {
+                super.onBackPressed();
+            }
+        }
+        return false;
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Błąd połączenia z internetem.");
+
+        if (id == R.id.nav_main) {
+            boolean networkCheck = isOnline();
+            if (!networkCheck) {
+                Log.d(TAG, "Błąd połączenia z internetem.");
+                builder.show();
+                return false;
+            }
+
+            Intent intent = new Intent(FriendsDiary.this, FriendsDiary.class);
+            startActivity(intent);
+        }
+
+        if (id == R.id.nav_idea) {
+            boolean networkCheck = isOnline();
+            if (!networkCheck) {
+                Log.d(TAG, "Błąd połączenia z internetem.");
+                builder.show();
+                return false;
+            }
+            //Intent intent = new Intent(FriendsDiary.this, AddProjectActivity.class);
+            //startActivity(intent);
+
+        } else if (id == R.id.nav_my_account) {
+            boolean networkCheck = isOnline();
+            if (!networkCheck) {
+                Log.d(TAG, "Błąd połączenia z internetem.");
+                builder.show();
+                return false;
+            }
+            //Intent intent = new Intent(FriendsDiary.this, UserAreaActivity.class);
+            //startActivity(intent);
+
+
+        } else if (id == R.id.nav_rules) {
+            //Intent intent = new Intent(RootActivity.this, RulesActivity.class);
+            //startActivity(intent);
+
+        } else if (id == R.id.nav_help) {
+            //Intent intent = new Intent(RootActivity.this, HelpActivity.class);
+            //startActivity(intent);
+
+        } else if (id == R.id.nav_about) {
+            Intent intent = new Intent(FriendsDiary.this, AboutActivity.class);
+            startActivity(intent);
+
+        } else if (id == R.id.nav_logout) {
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            Toast.makeText(getApplicationContext(), "Wylogowano poprawnie.", Toast.LENGTH_SHORT).show();
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawerLayout1);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
 
     public boolean isOnline() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         android.net.NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }
+
+
+    /*
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        //Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+    */
+
+
+
 }

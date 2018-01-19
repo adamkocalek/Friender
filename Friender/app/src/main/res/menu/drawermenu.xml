@@ -1,18 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item
-        android:id="@+id/nav_main"
-        android:icon="@drawable/drawer_home_icon"
-        android:title="Strona Główna" />
+    <group
+        android:id="@+id/group_main"
+        android:checkableBehavior="single">
 
-    <item
-        android:id="@+id/nav_idea"
-        android:icon="@drawable/drawer_add_icon"
-        android:title="Nowości" />
+        <item
+            android:id="@+id/nav_main"
+            android:icon="@drawable/drawer_home_icon"
+            android:title="Strona Główna" />
 
-    <group android:id="@+id/group_account">
+        <item
+            android:id="@+id/nav_idea"
+            android:icon="@drawable/drawer_add_icon"
+            android:title="Nowości" />
+    </group>
 
+    <group
+        android:id="@+id/group_account"
+        android:checkableBehavior="single">
         <item
             android:id="@+id/nav_my_account"
             android:icon="@drawable/drawer_myaccount_icon"
@@ -24,8 +30,9 @@
             android:title="Historia zamówień" />
     </group>
 
-    <group android:id="@+id/group_others">
-
+    <group
+        android:id="@+id/group_others"
+        android:checkableBehavior="single">
         <item
             android:id="@+id/nav_rules"
             android:icon="@drawable/drawer_rules_icon"
@@ -43,12 +50,14 @@
 
     </group>
 
-    <group android:id="@+id/group_logout">
-
+    <group
+        android:id="@+id/group_logout"
+        android:checkableBehavior="single">
         <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/drawer_logout_icon"
             android:title="Wyloguj się" />
     </group>
-
 </menu>
+
+

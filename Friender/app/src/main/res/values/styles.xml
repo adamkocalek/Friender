@@ -1,4 +1,5 @@
 <resources>
+
     <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -29,10 +30,10 @@
     </style>
 
     <!--<style name="CustomDialog" parent="android:Theme.DeviceDefault.Dialog">-->
-        <!--<item name="DialogTitleAppearance">@android:style/TextAppearance.Medium</item>-->
-        <!--<item name="DialogTitleText">Pobieranie, proszę czekać.</item>-->
-        <!--<item name="DialogSpotColor">#FFFFFF</item>-->
-        <!--<item name="DialogSpotCount">8</item>-->
+    <!--<item name="DialogTitleAppearance">@android:style/TextAppearance.Medium</item>-->
+    <!--<item name="DialogTitleText">Pobieranie, proszę czekać.</item>-->
+    <!--<item name="DialogSpotColor">#FFFFFF</item>-->
+    <!--<item name="DialogSpotCount">8</item>-->
     <!--</style>-->
 
     <style name="Dialog_Theme">
