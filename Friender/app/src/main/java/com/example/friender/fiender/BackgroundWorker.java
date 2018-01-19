@@ -52,6 +52,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
         String update_url = "";
         String friends_url = "https://serwer1743778.home.pl/getFriends.php";
         String user_url = "https://serwer1743778.home.pl/getUsers.php";
+        String updateFriend_url = "https://serwer1743778.home.pl/updateFriend.php";
 
         String NetworkException = "Błąd połączenia z internetem";
         String IOException = "Nieoczekiwany błąd, IOException";
@@ -145,7 +146,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                 }
                 break;
 
-            case "updateFriend":
+            case "updateFriend_old":
                 try {
                     String name = params[1];
                     String surname = params[2];
@@ -264,6 +265,45 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                     Log.d(TAG, IOException);
                 }
 
+            case "updateFriend":
+                try {
+                    String id = params[1];
+                    String id_user = params[2];
+                    URL url = new URL(updateFriend_url);
+                    HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                    httpURLConnection.setRequestMethod("POST");
+                    httpURLConnection.setDoOutput(true);
+                    httpURLConnection.setDoInput(true);
+                    OutputStream outputStream = httpURLConnection.getOutputStream();
+                    BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+                    String post_data = URLEncoder.encode("id", "UTF-8") + "=" + URLEncoder.encode(id, "UTF-8")  + "&"
+                            + URLEncoder.encode("id_user", "UTF-8") + "=" + URLEncoder.encode(id_user, "UTF-8");
+                    bufferedWriter.write(post_data);
+                    bufferedWriter.flush();
+                    bufferedWriter.close();
+                    outputStream.close();
+                    InputStream inputStream = httpURLConnection.getInputStream();
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));   //było iso-8859-1
+                    String result = "";
+                    String line = "";
+
+                    while ((line = bufferedReader.readLine()) != null) {
+                        result += line;
+                    }
+                    bufferedReader.close();
+                    inputStream.close();
+                    httpURLConnection.disconnect();
+                    System.out.println("tempJSON: " + result);
+                    tempJSON = result;
+                    return result;
+
+                } catch (MalformedURLException e) {
+                    Log.d(TAG, NetworkException);
+                } catch (IOException e) {
+                    Log.d(TAG, IOException);
+                }
+                break;
+
             case "getMyProjects":
 
                 return "MyProjects";
@@ -310,21 +350,23 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                     JSON_O = JSON_A.getJSONObject(i);
 
                     //if (JSON_O.getString("login").equals(username)) {
-                        String name = JSON_O.getString("name");
-                        String surname = JSON_O.getString("surname");
-                        String age = JSON_O.getString("age");
-                        String password = JSON_O.getString("password");
-                        String telephone = JSON_O.getString("phone");
-                        String email = JSON_O.getString("email");
+                    String id = JSON_O.getString("id");
+                    String name = JSON_O.getString("name");
+                    String surname = JSON_O.getString("surname");
+                    String age = JSON_O.getString("age");
+                    String password = JSON_O.getString("password");
+                    String telephone = JSON_O.getString("phone");
+                    String email = JSON_O.getString("email");
 
-                        System.out.println( "------------- " + age + password + email );
+                    System.out.println("------------- " + age + password + email);
 
-                        sharedPreferences.edit().putString("name", name).apply();
-                        sharedPreferences.edit().putString("surname", surname).apply();
-                        sharedPreferences.edit().putString("age", age).apply();
-                        sharedPreferences.edit().putString("password", password).apply();
-                        sharedPreferences.edit().putString("telephone", telephone).apply();
-                        sharedPreferences.edit().putString("email", email).apply();
+                    sharedPreferences.edit().putString("id", id).apply();
+                    sharedPreferences.edit().putString("name", name).apply();
+                    sharedPreferences.edit().putString("surname", surname).apply();
+                    sharedPreferences.edit().putString("age", age).apply();
+                    sharedPreferences.edit().putString("password", password).apply();
+                    sharedPreferences.edit().putString("telephone", telephone).apply();
+                    sharedPreferences.edit().putString("email", email).apply();
                     //}
                 }
 

@@ -1,6 +1,12 @@
 package com.example.friender.fiender;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -17,17 +23,19 @@ public class CustomAdapter extends BaseAdapter {
     ArrayList<String> oceny;
     ArrayList<String> wieki;
     ArrayList<Integer> imageId;
+    ArrayList<String> identyfikatory;
     Context context;
 
     private static LayoutInflater inflater = null;
 
-    public CustomAdapter(FriendsDiary mainActivity, ArrayList<String> nameList, ArrayList<Integer> images, ArrayList<String> ocenaList, ArrayList<String> wiekList) {
+    public CustomAdapter(Activity mainActivity, ArrayList<String> nameList, ArrayList<Integer> images, ArrayList<String> ocenaList, ArrayList<String> wiekList, ArrayList<String> ids) {
         // TODO Auto-generated constructor stub
         result = nameList;
         oceny = ocenaList;
         wieki = wiekList;
         context = mainActivity;
         imageId = images;
+        identyfikatory = ids;
         inflater = (LayoutInflater) context.
                 getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -71,11 +79,33 @@ public class CustomAdapter extends BaseAdapter {
         holder.tvOcena.setText(oceny.get(position));
         holder.tvWiek.setText(wieki.get(position));
         holder.img.setImageResource(imageId.get(position));
+
         rowView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
-                Toast.makeText(context, "Zamówiono " + result.get(position), Toast.LENGTH_LONG).show();
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder
+                        .setTitle("Informacja")
+                        .setMessage("Czy chesz zamówić " + result.get(position) + "?")
+                        .setIcon(R.drawable.app_logo_2)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                //Yes button clicked, do something
+                                Toast.makeText(context, "Zamówiono " + result.get(position), Toast.LENGTH_SHORT).show();
+
+                                SharedPreferences myprefs = context.getSharedPreferences("user", context.MODE_PRIVATE);
+                                String id_user = myprefs.getString("id", null);
+                                String type = "updateFriend";
+                                String id = identyfikatory.get(position);
+                                BackgroundWorker backgroundWorker = new BackgroundWorker(context);
+                                backgroundWorker.execute(type, id, id_user);
+                            }
+                        })
+                        .setNegativeButton("No", null);    //Do nothing on no
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+                dialog.getWindow().setBackgroundDrawableResource(R.color.white);
             }
         });
         return rowView;

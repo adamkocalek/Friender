@@ -30,7 +30,7 @@ public class NewsActivity extends AppCompatActivity {
         tvAboutText = (TextView) findViewById(R.id.tvAboutText);
         tvAboutUsText = (TextView) findViewById(R.id.tvAboutUs);
 
-        String textAbout = "Z 20 miliardami przyjaciół na liczniku Friender jest najpopularniejszą aplikacją umożliwiającą zawieranie nowych znajomości. Traktuj nas jak niezawodne wsparcie —gdziekolwiek jesteś, my jesteśmy przy Tobie. Szukasz nowych znajomości? Chcesz poszerzyć swój krąg towarzyski, spotykać się z mieszkańcami miejsc, które odwiedzasz albo po prostu żyć chwilą? Jesteś we właściwym miejscu. Nie bez powodu mówi się o nas \"najgorętsza aplikacja świata\".\n" +
+        String textAbout = "Z 20 miliardami przyjaciół na liczniku Friender jest najpopularniejszą aplikacją umożliwiającą zawieranie nowych znajomości. Traktuj nas jak niezawodne wsparcie - gdziekolwiek jesteś, my jesteśmy przy Tobie. Szukasz nowych znajomości? Chcesz poszerzyć swój krąg towarzyski, spotykać się z mieszkańcami miejsc, które odwiedzasz albo po prostu żyć chwilą? Jesteś we właściwym miejscu. Nie bez powodu mówi się o nas \"najgorętsza aplikacja świata\".\n" +
                 "\n" +
                 "Przeglądaj. Wybieraj. Rozmawiaj. Friender jest łatwy i przyjemny. Bez rozczarowań. Po prostu przeglądasz, wybierasz i zamwiasz przyjaciół. Później chowasz telefon i umawiasz się w realnym świecie, a nowa, wspaniała historia pisze się sama.\n" +
                 "\n" +

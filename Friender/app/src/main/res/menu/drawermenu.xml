@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group
-        android:id="@+id/group_main"
-        android:checkableBehavior="single">
+    <group android:id="@+id/group_main">
 
         <item
             android:id="@+id/nav_main"
@@ -16,9 +14,7 @@
             android:title="Nowości" />
     </group>
 
-    <group
-        android:id="@+id/group_account"
-        android:checkableBehavior="single">
+    <group android:id="@+id/group_account">
         <item
             android:id="@+id/nav_my_account"
             android:icon="@drawable/drawer_myaccount_icon"
@@ -30,9 +26,7 @@
             android:title="Historia zamówień" />
     </group>
 
-    <group
-        android:id="@+id/group_others"
-        android:checkableBehavior="single">
+    <group android:id="@+id/group_others">
         <item
             android:id="@+id/nav_rules"
             android:icon="@drawable/drawer_rules_icon"
@@ -50,9 +44,7 @@
 
     </group>
 
-    <group
-        android:id="@+id/group_logout"
-        android:checkableBehavior="single">
+    <group android:id="@+id/group_logout">
         <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/drawer_logout_icon"

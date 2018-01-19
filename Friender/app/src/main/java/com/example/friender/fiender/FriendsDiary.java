@@ -42,10 +42,13 @@ public class FriendsDiary extends AppCompatActivity
     ListView lv;
     Context context;
 
+    public NavigationView mNavigationView;
+
     public static ArrayList<String> nameList = new ArrayList<>();
     public static ArrayList<String> ocenaList = new ArrayList<>();
     public static ArrayList<String> wiekList = new ArrayList<>();
     public static ArrayList<Integer> images = new ArrayList<>();
+    public static ArrayList<String> ids = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,12 +58,13 @@ public class FriendsDiary extends AppCompatActivity
         overridePendingTransition(R.anim.right_in, R.anim.left_out);
         context = this;
 
-        images.add(R.drawable.szymon);
-        images.add(R.drawable.adam);
-        images.add(R.drawable.patrycjusz);
-        //images.add(R.drawable.marek);
-
         // -------------------------------------------------- Pobieranie przyjaciół i ustawiwanie LV -----------------------------------------------------
+        nameList.clear();
+        ocenaList.clear();
+        wiekList.clear();
+        images.clear();
+        ids.clear();
+
         BackgroundWorker backgroundWorker = new BackgroundWorker(this);
         backgroundWorker.execute("getFriends");
 
@@ -71,15 +75,6 @@ public class FriendsDiary extends AppCompatActivity
 
         }
 
-        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(new ContextThemeWrapper(FriendsDiary.this, R.style.Dialog_Theme))
-                .setTitle("Wystąpił błąd!")
-                .setMessage("Problem z dostępem do internetu. Sprawdź połączenie i spróbuj ponownie później.")
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-
         try {
             JSONArray JSON_A = new JSONArray(backgroundWorker.tempJSON);
             JSONObject JSON_O = null;
@@ -87,28 +82,39 @@ public class FriendsDiary extends AppCompatActivity
             for (int i = 0; i < JSON_A.length(); i++) {
                 JSON_O = JSON_A.getJSONObject(i);
 
-                // Odbieranie danych
-                String id = JSON_O.getString("id");
-                String name = JSON_O.getString("name");
-                String age = JSON_O.getString("age");
-                String hobby = JSON_O.getString("hobby");
-                String sex = JSON_O.getString("sex");
-                String picture = JSON_O.getString("pictures");
-                String login = JSON_O.getString("login");
-                String password = JSON_O.getString("password");
-                String city = JSON_O.getString("city");
-                String reservation = JSON_O.getString("reservation");
-                String id_user = JSON_O.getString("id_user");
-                String rank = JSON_O.getString("rank");
-                String free = JSON_O.getString("available");
+                String available = JSON_O.getString("available");
 
+                if (available.equals("1")) {
+                    // Odbieranie danych
+                    String id = JSON_O.getString("id");
+                    String name = JSON_O.getString("name");
+                    String age = JSON_O.getString("age");
+                    String hobby = JSON_O.getString("hobby");
+                    String sex = JSON_O.getString("sex");
+                    String picture = JSON_O.getString("pictures");
+                    String login = JSON_O.getString("login");
+                    String password = JSON_O.getString("password");
+                    String city = JSON_O.getString("city");
+                    String reservation = JSON_O.getString("reservation");
+                    String id_user = JSON_O.getString("id_user");
+                    String rank = JSON_O.getString("rank");
+                    String free = JSON_O.getString("available");
 
-                // Dodanie danych do list
-                nameList.add(name);
-                ocenaList.add("Ocena: " + rank);
-                wiekList.add("Wiek: " + age);
-                if (i > 2) {
-                    images.add(R.drawable.marek);
+                    // Dodanie danych do list
+                    nameList.add(name);
+                    ocenaList.add("Ocena: " + rank);
+                    wiekList.add("Wiek: " + age);
+                    if (name.equals("Szymon Witkowski")) {
+                        images.add(R.drawable.szymon);
+                    } else if (name.equals("Adam Kocalek")) {
+                        images.add(R.drawable.adam);
+                    } else if (name.equals("Patrycjusz Zajac")) {
+                        images.add(R.drawable.patrycjusz);
+                    }
+                    else if (name.equals("Marek Czatka")) {
+                        images.add(R.drawable.marek);
+                    }
+                    ids.add(id);
                 }
             }
         } catch (JSONException e) {
@@ -116,14 +122,14 @@ public class FriendsDiary extends AppCompatActivity
         }
 
         lv = (ListView) findViewById(R.id.listView);
-        lv.setAdapter(new CustomAdapter(this, nameList, images, ocenaList, wiekList));
+        lv.setAdapter(new CustomAdapter(this, nameList, images, ocenaList, wiekList, ids));
 
         // ----------------------------------------------------------------------------------------------------------------------------------------------
 
         DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout1);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar1);
         ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.app_name, R.string.app_name);
-        NavigationView mNavigationView = (NavigationView) findViewById(R.id.shitstuff1);
+        mNavigationView = (NavigationView) findViewById(R.id.shitstuff1);
 
         mDrawerLayout.addDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
@@ -154,14 +160,20 @@ public class FriendsDiary extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Błąd połączenia z internetem.");
+        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(new ContextThemeWrapper(FriendsDiary.this, R.style.Dialog_Theme))
+                .setTitle("Wystąpił błąd!")
+                .setMessage("Problem z dostępem do internetu. Sprawdź połączenie i spróbuj ponownie później.")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
 
         if (id == R.id.nav_main) {
             boolean networkCheck = isOnline();
             if (!networkCheck) {
                 Log.d(TAG, "Błąd połączenia z internetem.");
-                builder.show();
+                alertDialog.show();
                 return false;
             }
 
@@ -173,7 +185,7 @@ public class FriendsDiary extends AppCompatActivity
             boolean networkCheck = isOnline();
             if (!networkCheck) {
                 Log.d(TAG, "Błąd połączenia z internetem.");
-                builder.show();
+                alertDialog.show();
                 return false;
             }
             Intent intent = new Intent(FriendsDiary.this, NewsActivity.class);
@@ -183,7 +195,7 @@ public class FriendsDiary extends AppCompatActivity
             boolean networkCheck = isOnline();
             if (!networkCheck) {
                 Log.d(TAG, "Błąd połączenia z internetem.");
-                builder.show();
+                alertDialog.show();
                 return false;
             }
             Intent intent = new Intent(FriendsDiary.this, UserAreaActivity.class);
