@@ -4,10 +4,15 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -46,6 +51,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
         String register_url = "https://serwer1743778.home.pl/insertUser.php";
         String update_url = "";
         String friends_url = "https://serwer1743778.home.pl/getFriends.php";
+        String user_url = "https://serwer1743778.home.pl/getUsers.php";
 
         String NetworkException = "Błąd połączenia z internetem";
         String IOException = "Nieoczekiwany błąd, IOException";
@@ -222,6 +228,42 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                 }
                 break;
 
+            case "getUser":
+                try {
+                    String user_name = params[1];
+                    URL url = new URL(user_url);
+                    HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                    httpURLConnection.setRequestMethod("POST");
+                    httpURLConnection.setDoOutput(true);
+                    httpURLConnection.setDoInput(true);
+                    OutputStream outputStream = httpURLConnection.getOutputStream();
+                    BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+                    String post_data = URLEncoder.encode("user_name", "UTF-8") + "=" + URLEncoder.encode(user_name, "UTF-8");
+                    bufferedWriter.write(post_data);
+                    bufferedWriter.flush();
+                    bufferedWriter.close();
+                    outputStream.close();
+                    InputStream inputStream = httpURLConnection.getInputStream();
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"));
+                    String result = "";
+                    String line = "";
+
+                    while ((line = bufferedReader.readLine()) != null) {
+                        result += line;
+                    }
+
+                    bufferedReader.close();
+                    inputStream.close();
+                    httpURLConnection.disconnect();
+                    tempJSON = result;
+                    return "User";
+
+                } catch (MalformedURLException e) {
+                    Log.d(TAG, NetworkException);
+                } catch (IOException e) {
+                    Log.d(TAG, IOException);
+                }
+
             case "getMyProjects":
 
                 return "MyProjects";
@@ -242,12 +284,54 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
             Intent intent = new Intent(context, FriendsDiary.class);
             context.startActivity(intent);
             Toast.makeText(context, "Zalogowano poprawnie.", Toast.LENGTH_SHORT).show();
+
+            // ----------------------- BackgroundWorker Dane Użytkownika ----------------------------
+            SharedPreferences myprefs = context.getSharedPreferences("user", context.MODE_PRIVATE);
+            String username = myprefs.getString("username", null);
+            String type = "getUser";
+            BackgroundWorker backgroundWorker = new BackgroundWorker(context);
+            backgroundWorker.execute(type, username);
+            // --------------------------------------------------------------------------------------
+
         } else if (result.contains("failed")) {
             Toast.makeText(context, "Niepoprawne dane logowania.", Toast.LENGTH_SHORT).show();
         } else if (result.contains("sert")) {
             Intent intent = new Intent(context, LoginActivity.class);
             context.startActivity(intent);
             Toast.makeText(context, "Zarejestrowano.", Toast.LENGTH_SHORT).show();
+        } else if (result.contains("User")) {
+            try {
+                JSONArray JSON_A = new JSONArray(tempJSON);
+                JSONObject JSON_O = null;
+                for (int i = 0; i < JSON_A.length(); i++) {
+                    SharedPreferences sharedPreferences = context.getSharedPreferences("user", context.MODE_PRIVATE);
+                    String username = sharedPreferences.getString("username", null);
+
+                    JSON_O = JSON_A.getJSONObject(i);
+
+                    //if (JSON_O.getString("login").equals(username)) {
+                        String name = JSON_O.getString("name");
+                        String surname = JSON_O.getString("surname");
+                        String age = JSON_O.getString("age");
+                        String password = JSON_O.getString("password");
+                        String telephone = JSON_O.getString("phone");
+                        String email = JSON_O.getString("email");
+
+                        System.out.println( "------------- " + age + password + email );
+
+                        sharedPreferences.edit().putString("name", name).apply();
+                        sharedPreferences.edit().putString("surname", surname).apply();
+                        sharedPreferences.edit().putString("age", age).apply();
+                        sharedPreferences.edit().putString("password", password).apply();
+                        sharedPreferences.edit().putString("telephone", telephone).apply();
+                        sharedPreferences.edit().putString("email", email).apply();
+                    //}
+                }
+
+            } catch (JSONException e) {
+                Log.d("RootActivity", e + "");
+            }
+
         }
     }
 

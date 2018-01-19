@@ -10,16 +10,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-public class AboutActivity extends AppCompatActivity {
+public class NewsActivity extends AppCompatActivity {
 
     TextView tvAboutText, tvAboutUsText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_about);
+        setContentView(R.layout.activity_news);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_about);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_news);
         setSupportActionBar(toolbar);
 
         if (getSupportActionBar() != null) {
@@ -59,4 +59,5 @@ public class AboutActivity extends AppCompatActivity {
         super.onBackPressed();
         overridePendingTransition(R.anim.in_from_left, R.anim.out_to_right);
     }
+
 }

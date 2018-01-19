@@ -39,6 +39,26 @@
         <activity
             android:name=".AboutActivity"
             android:label="@string/title_activity_about"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".UserAreaActivity"
+            android:label="@string/title_activity_user_area"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".NewsActivity"
+            android:label="@string/title_activity_news"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".OrdersActivity"
+            android:label="@string/title_activity_orders"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".RegulationsActivity"
+            android:label="@string/title_activity_regulations"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".HelpActivity"
+            android:label="@string/title_activity_help"
             android:theme="@style/AppTheme"></activity>
     </application>
 

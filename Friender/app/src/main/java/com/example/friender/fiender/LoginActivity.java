@@ -109,9 +109,9 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Wszystkie pola muszą być wypełnione.", Toast.LENGTH_SHORT).show();
                 } else {
                     SharedPreferences myprefs = LoginActivity.this.getSharedPreferences("user", MODE_PRIVATE);
-                    myprefs.edit().putString("username", username).commit();
+                    myprefs.edit().putString("username", username).apply();
 
-                    BackgroundWorker backgroundWorker = new BackgroundWorker(LoginActivity.this);
+                    BackgroundWorker backgroundWorker = new BackgroundWorker(LoginActivity.this, LoginActivity.this  );
                     backgroundWorker.execute(type, username, password);
                 }
             }

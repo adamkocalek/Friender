@@ -32,18 +32,11 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import static com.example.friender.fiender.Parser.ids;
-import static com.example.friender.fiender.R.id.textViewIds;
-
 public class FriendsDiary extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    //com.example.friender.fiender.Parser parser;
     ListView listMain;
     SwipeRefreshLayout swipeRefreshLayout;
-    DrawerLayout mDrawerLayout;
-    NavigationView mNavigationView;
-    public Toolbar toolbar;
     String TAG = "LOG RootActivity";
 
     ListView lv;
@@ -127,89 +120,14 @@ public class FriendsDiary extends AppCompatActivity
 
         // ----------------------------------------------------------------------------------------------------------------------------------------------
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout1);
-        mNavigationView = (NavigationView) findViewById(R.id.shitstuff1);
-        mNavigationView.setNavigationItemSelectedListener(this);
-
-        toolbar = (Toolbar) findViewById(R.id.toolbar1);
+        DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout1);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar1);
         ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.app_name, R.string.app_name);
+        NavigationView mNavigationView = (NavigationView) findViewById(R.id.shitstuff1);
 
         mDrawerLayout.addDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
-
-        /*
-        mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
-                mDrawerLayout.closeDrawers();
-                Toast.makeText(getApplicationContext(), menuItem.getItemId(), Toast.LENGTH_SHORT).show();
-                if (menuItem.getItemId() == R.id.nav_main) {
-                    boolean networkCheck = isOnline();
-                    if (!networkCheck) {
-                        Log.d(TAG, "Błąd połączenia z internetem.");
-                        alertDialog.show();
-                        return false;
-                    }
-
-                    Intent intent = new Intent(FriendsDiary.this, FriendsDiary.class);
-                    startActivity(intent);
-                }
-
-                if (menuItem.getItemId() == R.id.nav_idea) {
-                    boolean networkCheck = isOnline();
-                    if (!networkCheck) {
-                        Log.d(TAG, "Błąd połączenia z internetem.");
-                        alertDialog.show();
-                        return false;
-                    }
-                    //Intent intent = new Intent(FriendsDiary.this, AddProjectActivity.class);
-                    //startActivity(intent);
-
-                } else if (menuItem.getItemId() == R.id.nav_my_account) {
-                    boolean networkCheck = isOnline();
-                    if (!networkCheck) {
-                        Log.d(TAG, "Błąd połączenia z internetem.");
-                        alertDialog.show();
-                        return false;
-                    }
-                    //Intent intent = new Intent(FriendsDiary.this, UserAreaActivity.class);
-                    //startActivity(intent);
-
-                } else if (menuItem.getItemId() == R.id.nav_my_projects) {
-                    boolean networkCheck = isOnline();
-                    if (!networkCheck) {
-                        Log.d(TAG, "Błąd połączenia z internetem.");
-                        alertDialog.show();
-                        return false;
-                    }
-                    //Intent intent = new Intent(RootActivity.this, UserProjectsActivity.class);
-                    //startActivity(intent);
-
-                } else if (menuItem.getItemId() == R.id.nav_rules) {
-                    //Intent intent = new Intent(RootActivity.this, RulesActivity.class);
-                    //startActivity(intent);
-
-                } else if (menuItem.getItemId() == R.id.nav_help) {
-                    //Intent intent = new Intent(RootActivity.this, HelpActivity.class);
-                    //startActivity(intent);
-
-                } else if (menuItem.getItemId() == R.id.nav_about) {
-                    Intent intent = new Intent(FriendsDiary.this, AboutActivity.class);
-                    startActivity(intent);
-
-                } else if (menuItem.getItemId() == R.id.nav_logout) {
-                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
-                    Toast.makeText(getApplicationContext(), "Wylogowano poprawnie.", Toast.LENGTH_SHORT).show();
-                }
-
-                return false;
-            }
-
-        });
-        */
+        mNavigationView.setNavigationItemSelectedListener(this);
     }
 
     @Override
@@ -218,10 +136,8 @@ public class FriendsDiary extends AppCompatActivity
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event)
-    {
-        if (keyCode == KeyEvent.KEYCODE_BACK)
-        {
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawerLayout1);
             if (drawer.isDrawerOpen(GravityCompat.START)) {
                 drawer.closeDrawer(GravityCompat.START);
@@ -260,8 +176,8 @@ public class FriendsDiary extends AppCompatActivity
                 builder.show();
                 return false;
             }
-            //Intent intent = new Intent(FriendsDiary.this, AddProjectActivity.class);
-            //startActivity(intent);
+            Intent intent = new Intent(FriendsDiary.this, NewsActivity.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_my_account) {
             boolean networkCheck = isOnline();
@@ -270,17 +186,20 @@ public class FriendsDiary extends AppCompatActivity
                 builder.show();
                 return false;
             }
-            //Intent intent = new Intent(FriendsDiary.this, UserAreaActivity.class);
-            //startActivity(intent);
+            Intent intent = new Intent(FriendsDiary.this, UserAreaActivity.class);
+            startActivity(intent);
 
+        } else if (id == R.id.nav_my_orders) {
+            Intent intent = new Intent(FriendsDiary.this, OrdersActivity.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_rules) {
-            //Intent intent = new Intent(RootActivity.this, RulesActivity.class);
-            //startActivity(intent);
+            Intent intent = new Intent(FriendsDiary.this, RegulationsActivity.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_help) {
-            //Intent intent = new Intent(RootActivity.this, HelpActivity.class);
-            //startActivity(intent);
+            Intent intent = new Intent(FriendsDiary.this, HelpActivity.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_about) {
             Intent intent = new Intent(FriendsDiary.this, AboutActivity.class);
@@ -314,7 +233,4 @@ public class FriendsDiary extends AppCompatActivity
         return true;
     }
     */
-
-
-
 }
