@@ -242,6 +242,8 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
             Intent intent = new Intent(context, FriendsDiary.class);
             context.startActivity(intent);
             Toast.makeText(context, "Zalogowano poprawnie.", Toast.LENGTH_SHORT).show();
+        } else if (result.contains("failed")) {
+            Toast.makeText(context, "Niepoprawne dane logowania.", Toast.LENGTH_SHORT).show();
         } else if (result.contains("sert")) {
             Intent intent = new Intent(context, LoginActivity.class);
             context.startActivity(intent);
