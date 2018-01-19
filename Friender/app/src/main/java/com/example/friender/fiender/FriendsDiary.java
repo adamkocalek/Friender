@@ -23,6 +23,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 import static com.example.friender.fiender.Parser.ids;
@@ -30,7 +34,7 @@ import static com.example.friender.fiender.R.id.textViewIds;
 
 public class FriendsDiary extends AppCompatActivity {
 
-    com.example.friender.fiender.Parser parser;
+    //com.example.friender.fiender.Parser parser;
     ListView listMain;
     SwipeRefreshLayout swipeRefreshLayout;
     DrawerLayout mDrawerLayout;
@@ -41,34 +45,38 @@ public class FriendsDiary extends AppCompatActivity {
     ListView lv;
     Context context;
 
-    ArrayList prgmName;
-    public static int [] images={R.drawable.szymon,R.drawable.adam,R.drawable.patrycjusz,R.drawable.marek};
-    public static String [] nameList={"Szymon Witkowski","Adam Kocałek","Patrycjusz Zając","Marek Czatka"};
-    public static String [] ocenaList={"Ocena: 5,78","Ocena: 6,00","Ocena: 5,11","Ocena: 3,29"};
-    public static String [] wiekList={"Wiek: 21","Wiek: 28","Wiek: 22","Wiek: 42"};
+    public static ArrayList<String> nameList = new ArrayList<>();
+    public static ArrayList<String> ocenaList = new ArrayList<>();
+    public static ArrayList<String> wiekList = new ArrayList<>();
+    public static ArrayList<Integer> images = new ArrayList<>();
 
     @Override
     public void onBackPressed() {
         return;
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        //Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.main, menu);
-//        return true;
-//    }
+    /*
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        //Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+    */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends_diary);
         overridePendingTransition(R.anim.right_in, R.anim.left_out);
-        context=this;
+        context = this;
 
-        lv=(ListView) findViewById(R.id.listView);
-//        lv.setAdapter(new CustomAdapter(this, nameList,images,ocenaList,wiekList));
+        images.add(R.drawable.szymon);
+        images.add(R.drawable.adam);
+        images.add(R.drawable.patrycjusz);
+        //images.add(R.drawable.marek);
 
+        // -------------------------------------------------- Pobieranie przyjaciół i ustawiwanie LV -----------------------------------------------------
         BackgroundWorker backgroundWorker = new BackgroundWorker(this);
         backgroundWorker.execute("getFriends");
 
@@ -79,8 +87,6 @@ public class FriendsDiary extends AppCompatActivity {
 
         }
 
-        parser = new Parser(getApplicationContext(), backgroundWorker.tempJSON);
-        parser.parse();
         final AlertDialog.Builder alertDialog = new AlertDialog.Builder(new ContextThemeWrapper(FriendsDiary.this, R.style.Dialog_Theme))
                 .setTitle("Wystąpił błąd!")
                 .setMessage("Problem z dostępem do internetu. Sprawdź połączenie i spróbuj ponownie później.")
@@ -89,6 +95,47 @@ public class FriendsDiary extends AppCompatActivity {
                         dialog.cancel();
                     }
                 });
+
+        try {
+            JSONArray JSON_A = new JSONArray(backgroundWorker.tempJSON);
+            JSONObject JSON_O = null;
+
+            for (int i = 0; i < JSON_A.length(); i++) {
+                JSON_O = JSON_A.getJSONObject(i);
+
+                // Odbieranie danych
+                String id = JSON_O.getString("id");
+                String name = JSON_O.getString("name");
+                String age = JSON_O.getString("age");
+                String hobby = JSON_O.getString("hobby");
+                String sex = JSON_O.getString("sex");
+                String picture = JSON_O.getString("pictures");
+                String login = JSON_O.getString("login");
+                String password = JSON_O.getString("password");
+                String city = JSON_O.getString("city");
+                String reservation = JSON_O.getString("reservation");
+                String id_user = JSON_O.getString("id_user");
+                String rank = JSON_O.getString("rank");
+                String free = JSON_O.getString("available");
+
+
+                // Dodanie danych do list
+                nameList.add(name);
+                ocenaList.add("Ocena: " + rank);
+                wiekList.add("Wiek: " + age);
+                if (i > 2) {
+                    images.add(R.drawable.marek);
+                }
+            }
+        } catch (JSONException e) {
+            Log.d("LOG Parser", e + "");
+        }
+
+        lv = (ListView) findViewById(R.id.listView);
+        lv.setAdapter(new CustomAdapter(this, nameList, images, ocenaList, wiekList));
+
+        // ----------------------------------------------------------------------------------------------------------------------------------------------
+
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout1);
         mNavigationView = (NavigationView) findViewById(R.id.shitstuff1);
@@ -169,21 +216,6 @@ public class FriendsDiary extends AppCompatActivity {
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
-
-
-        ListViewAdapter lvAdapter = new ListViewAdapter(this, parser.ids, parser.names, parser.ages, parser.hobbies, parser.sexs, parser.pictures, parser.logins, parser.passwords, parser.cities, parser.reservations, parser.id_users, parser.ranks, parser.frees);
-
-        lv.setAdapter(lvAdapter);
-
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                BackgroundWorker backgroundWorker = new BackgroundWorker(FriendsDiary.this);
-//                backgroundWorker.execute("getFriends");
-            }
-        });
-
-
     }
 
     public boolean isOnline() {

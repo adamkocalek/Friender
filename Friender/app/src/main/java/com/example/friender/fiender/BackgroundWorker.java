@@ -211,7 +211,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
                     bufferedReader.close();
                     inputStream.close();
                     httpURLConnection.disconnect();
-                    System.out.println(result);
+                    System.out.println("tempJSON: " + result);
                     tempJSON = result;
                     return result;
 
